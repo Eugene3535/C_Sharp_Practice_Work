@@ -1,0 +1,431 @@
+using System;                                                                   // Task 1
+
+namespace CurrentTask
+{
+    class Task
+    {
+        static int Main()
+        {
+            Console.WriteLine("Текущая время и дата: " + DateTime.Now);
+
+            OperatingSystem os = Environment.OSVersion;
+            Console.WriteLine("Платформа: " + os.Platform.ToString());
+
+            Console.Write("Введите х: ");
+
+            double x = double.Parse(Console.ReadLine());
+            double y = Math.Sqrt(Math.Log(4.0 / 3.0 + x) + 9.0 / 7.0) - Math.Pow(Math.E, -Math.Sin(1.3 * x - 0.7));
+
+            Console.WriteLine("y = {0:F4}", y);
+
+            return 0;
+        }
+    }
+}
+// ---------------------------------------------------------------------------------------------------------------------------------
+using System;                                                                   // Task 2 - 1
+
+namespace CurrentTask
+{
+    class Task
+    {
+        static int Main()
+        {
+            int a;          // = -14; 
+            float c;        // = -0,00151; 
+            double i;       // = -10 000; 
+            bool l;         // = false; 
+            string surname; // = Володин; 
+
+            Console.Write("Input surname ");
+            surname = Console.ReadLine();
+
+            Console.Write("Input a ");
+            a = Convert.ToInt32(Console.ReadLine());
+
+            Console.Write("Input c ");
+            c = Convert.ToSingle(Console.ReadLine());
+
+            Console.Write("Input i ");
+            i = Convert.ToDouble(Console.ReadLine());
+
+            Console.Write("Input l ");
+            l = Convert.ToBoolean(Console.ReadLine());
+
+            Console.WriteLine(" Результаты форматирования \n name = {0,6}, l = {1,4}", surname, l);
+            Console.WriteLine("a ={0,4}, c =  {1,10:f5}, i = {2,20:e8}\n", a, c, i); 
+            Console.WriteLine("Для выхода нажмите Enter");
+
+            return 0;
+        }
+    }
+}
+// ---------------------------------------------------------------------------------------------------------------------------------
+using System;                                                                   // Task 2 - 2
+using System.Collections.Generic;
+using System.IO;
+
+namespace CurrentTask
+{
+    class Task
+    {
+        static int Main()
+        {   //                                Input
+            StreamReader reader = new StreamReader("in.txt");
+
+            int low_bound  = int.Parse(reader.ReadLine());
+            int high_bound = int.Parse(reader.ReadLine());
+
+            reader.Close();
+            //                                Calculating
+            const uint value_count = 8u;
+            Dictionary<double, double> result_values = new Dictionary<double, double>();
+
+            double step =    (Math.Abs(low_bound) + Math.Abs(high_bound))
+                        / //---------------------------------------------- 
+                                       (double)value_count;
+
+            for (double x = low_bound; x <= high_bound; x += step)
+            {
+                double y =          1 - x * x
+                         / // ---------------------
+                               1 + Math.Pow(x, 4);
+
+                result_values.Add(x, y);
+            }
+
+            //                                 Output
+            StreamWriter writer = new StreamWriter("out.txt");
+            writer.WriteLine("Таблица значений:");
+            writer.WriteLine("+---------------------------------------+");
+            writer.WriteLine("+   Аргумент        +   Функция         +");
+            writer.WriteLine("+---------------------------------------+");
+
+            foreach (var result in result_values)
+                writer.WriteLine("+\tx = {0:F3}\t\t+\ty = {1:F3}\t\t+", result.Key, result.Value);
+
+            writer.WriteLine("+---------------------------------------+");
+            writer.WriteLine("Составил < Володин Евгений Викторович >");
+            writer.Close();
+
+            Console.ReadLine();
+
+            return 0;
+        }
+    }
+}
+// ---------------------------------------------------------------------------------------------------------------------------------
+using System;                                                                   // Task 3 - 1
+
+namespace CurrentTask
+{
+    class Task
+    {
+        static int Main()
+        {   
+            string input = "";
+            do
+            {
+                Console.Write("Введите х: ");
+                double x = double.Parse(Console.ReadLine());
+
+                Console.Write("Введите y: ");
+                double y = double.Parse(Console.ReadLine());
+
+                Console.Write("Введите z: ");
+                double z = double.Parse(Console.ReadLine());
+
+                double F =             Math.Min(x, y) + 0.5
+                         / //-------------------------------------------
+                              Math.Pow(Math.Max(x, y), 2) - Math.Sin(z);
+
+                Console.WriteLine("Дано: x = {0:F3}, y = {1:F3}, z = {2:F3}", x, y, z);
+
+                if (F == 0)
+                    Console.WriteLine("Результат: знаменатель равен нулю");
+                else
+                    Console.WriteLine("Результат: F = {0:F3}", F);
+
+                Console.WriteLine("Для повторного ввода набрать любую клавишу");
+                Console.WriteLine("Для завершения программы нажмите Enter");
+
+                input = Console.ReadLine();
+            } while (input != "");
+
+            return 0;
+        }
+    }
+}
+// ---------------------------------------------------------------------------------------------------------------------------------
+using System;                                                                   // Task 3 - 2
+
+namespace CurrentTask
+{
+    class Task
+    {
+        static int Main()
+        {
+            string input = "";
+            do
+            {
+                Console.WriteLine("Введите для точки М:");
+
+                Console.Write("Координату по X: ");
+                double x = double.Parse(Console.ReadLine());
+
+                Console.Write("Координату по Y: ");
+                double y = double.Parse(Console.ReadLine());
+                
+                const double R = 12;
+                double N = 0;
+
+                if (x * x + y * y > R * R) // Вне радиуса?
+                    N = 4;
+                else              
+                    if (y < 0)             // Ниже оси абсцисс?
+                        N = x < 0 ? 2 : 3; // 2 <-+-> 3
+                    else                   // Выше оси абсцисс
+                        N = x < 0 ? 1 : 2; // 1 <-+-> 2               
+
+                Console.WriteLine("\tРЕЗУЛЬТАТ:");
+                Console.WriteLine("   Точка М(" + x + ";" + y + ")" + " лежит в области N = " + N);
+                Console.WriteLine("Для повторного ввода набрать любую клавишу");
+                Console.WriteLine("Для завершения программы нажмите Enter");
+
+                input = Console.ReadLine();
+            } while (input != "");
+
+            return 0;
+        }
+    }
+}
+// ---------------------------------------------------------------------------------------------------------------------------------
+using System;                                                                   // Task 4 - 1
+
+namespace CurrentTask
+{
+    class Task
+    {
+        static int Main()
+        {
+            double a = 0, x = 0, y = 0;
+
+            Console.WriteLine("   РЕЗУЛЬТАТЫ РАСЧЁТА:");
+
+            for (a = 1.0; a < 1.3 + 0.1; a += 0.1)
+            {
+                Console.WriteLine("\n\t a = {0:F1}", a);
+
+                const double dx = 0.1;
+
+                for (x = -1.5; x <= 1.5; x += dx)
+                {
+                    y = (1.0 / a) * Math.Exp(-Math.Pow((x / a), 2));
+
+                    Console.WriteLine("x = {0:F3}\ty = {1:F3}", x, y);
+                }
+            }
+            return 0;
+        }
+    }
+}
+// ---------------------------------------------------------------------------------------------------------------------------------
+using System;                                                                   // Task 4 - 2
+
+namespace CurrentTask
+{
+    class Task
+    {
+        static int Main()
+        {
+            const double epsilon = 1e-6;
+            double[] args = { -0.84, 1, 2 };
+
+            for (int i = 0; i < args.Length; i++)
+            {
+                double S = 1;
+                double x = args[i];
+                int sign = 1;
+                uint power = 1;
+                double m_row = x / 2;
+
+                int k1 = 1, k2 = 2;
+                int dt1 = 1, dt2 = 4;
+
+                while (m_row >= epsilon)
+                {
+                    S += m_row * sign;
+                    sign *= -1;
+                    power++;
+                    k1 *= dt1;
+                    k2 *= dt2;
+                    dt1 += 2;
+                    dt2 += 2;
+
+                    m_row =     k1 * Math.Pow(x, power)
+                          / // -------------------------
+                                         k2;                   
+                }
+                Console.WriteLine("\t\tИтерация № {0}\nСумма ряда = {1}", i + 1, S);
+                Console.WriteLine("y(x) при контрольном значении {0} = {1}\n", x, Math.Sqrt(x + 1));
+            }         
+            return 0;
+        }
+    }
+}
+// ---------------------------------------------------------------------------------------------------------------------------------
+using System;                                                                   // Task 5
+
+namespace CurrentTask
+{
+    class Task
+    {
+        static int Main()
+        {
+            Console.Write("Введите размерность массива как положительное целое число: ");
+
+            int N = int.Parse(Console.ReadLine());
+            int[] array = new int[N];
+
+            Random rand = new Random();
+
+            for (uint i = 0; i < N; i++)
+                array[i] = rand.Next(-N / 2, N / 2);
+
+            int min = 0, max = 0, total = 0;
+
+            foreach(var value in array)
+            {
+                if (value < 0) min++;
+                else           max++;
+                total += value;
+            }
+            int average =         total
+                        / // --------------
+                              array.Length;
+     
+            Console.WriteLine("Отрицательных чисел: "    + min);
+            Console.WriteLine("Положительных чисел: "    + max);
+            Console.WriteLine("Среднее арифметическое: " + average);
+
+            return 0;
+        }
+    }
+}
+// ---------------------------------------------------------------------------------------------------------------------------------
+using System;                                                                   // Task 6
+
+namespace CurrentTask
+{
+    class Task
+    {
+        static int Main()
+        {
+            const int rows = 5;
+            const int columns = 6;
+            int total = 0;
+            int[,] array = new int[rows, columns];
+
+            Random rand = new Random();
+
+            for (uint i = 0; i < rows; i++)
+                for (uint j = 0; j < columns; j++)
+                {
+                    array[i, j] = rand.Next(0, rows * columns);
+                    total += array[i, j];
+                }                   
+            Console.WriteLine("Сумма всех чисел: " + total);
+
+            return 0;
+        }
+    }
+}
+// ---------------------------------------------------------------------------------------------------------------------------------
+using System;                                                                   // Task 7
+
+namespace CurrentTask
+{
+    class Task
+    {
+        static void Main()
+        {
+            const int n = 4;
+            int[,] A = new int[n, n];
+            int[,] B = new int[n, n];
+
+            Random rand = new Random();
+
+            for (int i = 0; i < n; i++)
+                for (int j = 0; j < n; j++)
+                {
+                    A[i, j] = rand.Next(0, 10);
+                    B[i, j] = rand.Next(0, 10);
+                }
+            Console.WriteLine("Матрица A:");
+            Print(A);
+
+            Console.WriteLine("Матрица B");
+            Print(B);
+
+            Console.WriteLine("Результаты:");
+            Print(VectorSum(A, B));
+
+            Console.ReadKey(true);
+        }
+        public static void Print(int[] vector)
+        {
+            for (int i = 0; i < vector.Length; i++)
+                Console.Write("{0} ", vector[i]);
+
+            Console.WriteLine();
+        }
+        public static void Print(int[,] matrix)
+        {
+            for (int i = 0; i < matrix.GetLength(0); i++)
+            {
+                for (int j = 0; j < matrix.GetLength(1); j++)
+                    Console.Write("{0} ", matrix[i, j]);
+
+                Console.WriteLine();
+            }
+            Console.WriteLine();
+        }
+        public static int MinColumnIndex(int[,] matrix)
+        {
+            int index = 0;
+            double average = 0;
+            double temp = int.MaxValue;
+
+            for (int i = 0; i < matrix.GetLength(1); i++)
+            {
+                average = 0;
+
+                for (int j = 0; j < matrix.GetLength(0); j++)
+                    average += matrix[j, i];
+
+                average /= matrix.GetLength(0);
+
+                if (temp > average) { temp = average; index = i; }
+            }
+            return index;
+        }
+        public static int[] VectorSum(int[,] A, int[,] B)
+        {
+            int n = A.GetLength(0);
+            int[] resultVector = new int[n];
+
+            int ind1 = MinColumnIndex(A);
+            int ind2 = MinColumnIndex(B);
+
+            Console.WriteLine("Вектор X: {0} cтолбец матрицы A", ind1 + 1);
+            Console.WriteLine("Вектор Y: {0} cтолбец матрицы B", ind2 + 1);
+            Console.Write("Вектор X + Y = ");
+
+            for (int i = 0; i < n; i++)
+                resultVector[i] = A[i, ind1] + B[i, ind2];
+
+            return resultVector;
+        }
+    }
+}
+// ---------------------------------------------------------------------------------------------------------------------------------
